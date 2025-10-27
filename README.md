@@ -81,11 +81,15 @@ This project builds upon the existing  Music Streaming Database to implement adv
 > Follow these steps to implement security features in your Supabase project.
 
 ### Prerequisites
--- In order to run this project you need:
-1.A Supabase account on https://supabase.com/
-2.Existing Supabase project with database tables
-3.Basic SQL and database security knowledge
-4. Understanding of role-based access control concepts
+In order to run this project you need:
+
+1.A Supabase account on https://supabase.com/ 
+
+2.Existing Supabase project with database tables 
+
+3.Basic SQL and database security knowledge 
+
+4.Understanding of role-based access control concepts
 
 ### Setup
 1. Ensure you have the Music Streaming System Database setup in Supabase
