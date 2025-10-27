@@ -188,15 +188,4 @@ RETURNS TABLE (
   total_songs INT,
   total_artists INT
 )
-LANGUAGE sql
-SECURITY DEFINER
-AS $$
-  SELECT 
-    (SELECT COUNT(*) FROM Music.Users),
-    (SELECT COUNT(*) FROM Music.Songs),
-    (SELECT COUNT(*) FROM Music.Artists);
-$$;
 
--- ======================================================
--- END OF SCHEMA
--- ======================================================
