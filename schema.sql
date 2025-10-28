@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Music.Users (
 );
 
 ##Artists Table##
--- ===========================
+
 CREATE TABLE IF NOT EXISTS Music.Artists (
     artist_id SERIAL PRIMARY KEY,
     artist_name VARCHAR(100) NOT NULL,
