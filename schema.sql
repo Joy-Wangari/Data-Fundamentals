@@ -1,23 +1,7 @@
--- ======================================================
--- 🎵 Music Streaming System Schema (schema.sql)
--- ======================================================
--- Author: Joy Wangari
--- Project: Data Fundamentals - Admin Roles & Security Database
--- Database: PostgreSQL (Supabase)
--- ======================================================
-
--- ======================================================
--- 1. SCHEMA CREATION
--- ======================================================
-CREATE SCHEMA IF NOT EXISTS Music;
-
--- ======================================================
--- 2. TABLES
--- ======================================================
-
--- ===========================
--- USERS TABLE
--- ===========================
+🎵 Music Streaming System Schema (schema.sql)
+Project: Data Fundamentals - Admin Roles & Security Database
+Database: PostgreSQL (Supabase)
+##Users Table##
 CREATE TABLE IF NOT EXISTS Music.Users (
     user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     full_name VARCHAR(100) NOT NULL,
@@ -26,8 +10,7 @@ CREATE TABLE IF NOT EXISTS Music.Users (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
--- ===========================
--- ARTISTS TABLE
+##Artists Table##
 -- ===========================
 CREATE TABLE IF NOT EXISTS Music.Artists (
     artist_id SERIAL PRIMARY KEY,
@@ -37,9 +20,7 @@ CREATE TABLE IF NOT EXISTS Music.Artists (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
--- ===========================
--- SONGS TABLE
--- ===========================
+ ##Songs Table##
 CREATE TABLE IF NOT EXISTS Music.Songs (
     song_id SERIAL PRIMARY KEY,
     artist_id INT REFERENCES Music.Artists(artist_id) ON DELETE CASCADE,
@@ -50,10 +31,7 @@ CREATE TABLE IF NOT EXISTS Music.Songs (
     created_by UUID REFERENCES Music.Users(user_id) ON DELETE SET NULL
 );
 
--- ======================================================
--- 3. SAMPLE DATA INSERTS
--- ======================================================
-
+--SAMPLE DATA
 -- Insert Users
 INSERT INTO Music.Users (full_name, email, role)
 VALUES
@@ -66,11 +44,11 @@ VALUES
 -- Insert Artists
 INSERT INTO Music.Artists (artist_name, genre, country)
 VALUES
-('Paul Clement', 'Gospel', 'Tanzania'),
+('Kestin Mbogo', 'Gospel', 'Tanzania'),
 ('Ed Sheeran', 'Pop', 'UK'),
-('Koffi Olomide', 'Lingala', 'DR Congo'),
+('Alice Kimanzi', 'Lingala', 'DR Congo'),
 ('Nyashinski', 'HipHop', 'Kenya'),
-('Mercy Masika', 'Gospel', 'Kenya');
+('Kanji Mbugua', 'Gospel', 'Kenya');
 
 -- Insert Songs
 INSERT INTO Music.Songs (artist_id, song_title, genre, duration, release_date)
@@ -81,20 +59,15 @@ VALUES
 (4, 'Naishi', 'HipHop', '00:03:54', '2022-04-19'),
 (5, 'Mwema', 'Gospel', '00:06:02', '2020-01-25');
 
--- ======================================================
 -- 4. ENABLE ROW LEVEL SECURITY (RLS)
--- ======================================================
+
 ALTER TABLE Music.Users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE Music.Artists ENABLE ROW LEVEL SECURITY;
 ALTER TABLE Music.Songs ENABLE ROW LEVEL SECURITY;
 
--- ======================================================
 -- 5. SECURITY POLICIES
--- ======================================================
 
--- ===========================
 -- USERS TABLE POLICIES
--- ===========================
 
 -- Admin Full Access
 CREATE POLICY "Admins have full access to users"
@@ -117,11 +90,9 @@ USING (auth.uid() = user_id);
 CREATE POLICY "Users can update own profile"
 ON Music.Users
 FOR UPDATE
-USING (auth.uid() = user_id);
-
--- ===========================
+USING (auth.uid() = user_id
+    
 -- ARTISTS TABLE POLICIES
--- ===========================
 -- Admin full access
 CREATE POLICY "Admins have full access to artists"
 ON Music.Artists
@@ -139,9 +110,8 @@ ON Music.Artists
 FOR SELECT
 USING (true);
 
--- ===========================
 -- SONGS TABLE POLICIES
--- ===========================
+
 -- Admin full access
 CREATE POLICY "Admins have full access to songs"
 ON Music.Songs
@@ -159,9 +129,7 @@ ON Music.Songs
 FOR SELECT
 USING (true);
 
--- ======================================================
 -- 6. SECURITY FUNCTIONS (ADMIN-ONLY)
--- ======================================================
 
 -- Function: Get current user role
 CREATE OR REPLACE FUNCTION Music.get_current_user_role()
@@ -188,4 +156,3 @@ RETURNS TABLE (
   total_songs INT,
   total_artists INT
 )
-
